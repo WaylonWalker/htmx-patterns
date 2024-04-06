@@ -32,19 +32,17 @@ class ApiServer(BaseModel):
     proxy_headers: bool = True
 
 
-@pass_context
-def https_url_for(context: dict, name: str, **path_params: Any) -> str:
-    request = context["request"]
-    http_url = request.url_for(name, **path_params)
-    return str(http_url).replace("http", "https", 1)
+# @pass_context
+# def https_url_for(context: dict, name: str, **params: Any) -> str:
+#     http_url = url_for_query(context, name, **params)
+#     return str(http_url).replace("http", "https", 1)
 
 
 @pass_context
 def url_for_query(context: dict, name: str, **params: dict) -> str:
     request = context["request"]
     url = str(request.url_for(name))
-    if params == {}:
-        return url
+
     from urllib.parse import parse_qs, urlencode, urlparse, urlunparse
 
     # Parse the URL
@@ -71,6 +69,9 @@ def url_for_query(context: dict, name: str, **params: dict) -> str:
         )
     )
 
+    if os.environ.get("ENV") in ["dev", "qa", "prod"]:
+        updated_url = updated_url.replace("http", "https", 1)
+
     return updated_url
 
 
@@ -80,16 +81,15 @@ def get_templates(config: BaseSettings) -> Jinja2Templates:
     templates.env.filters["timestamp"] = lambda u: datetime.fromtimestamp(
         u, tz=timezone.utc
     ).strftime("%B %d, %Y")
-    templates.env.globals["https_url_for"] = https_url_for
     templates.env.globals["url_for"] = url_for_query
     templates.env.globals["config"] = config
     console.print(f'Using environment: {os.environ.get("ENV")}')
 
-    if os.environ.get("ENV") in ["dev", "qa", "prod"]:
-        templates.env.globals["url_for"] = https_url_for
-        console.print("Using HTTPS")
-    else:
-        console.print("Using HTTP")
+    # if os.environ.get("ENV") in ["dev", "qa", "prod"]:
+    #     templates.env.globals["url_for"] = https_url_for
+    #     console.print("Using HTTPS")
+    # else:
+    #     console.print("Using HTTP")
 
     return templates
 
