@@ -1,5 +1,9 @@
 # HTMX-PATTERNS CHANGELOG
 
+## 0.1.3
+
+* fix mobile style
+
 ## 0.1.2
 
 * fix seo image size
