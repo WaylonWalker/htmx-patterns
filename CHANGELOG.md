@@ -1,5 +1,9 @@
 # HTMX-PATTERNS CHANGELOG
 
+## 0.1.2
+
+* fix seo image size
+
 ## 0.1.1
 
 * feat seo
