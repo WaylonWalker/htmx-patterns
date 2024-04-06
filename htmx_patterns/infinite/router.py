@@ -1,3 +1,4 @@
+import asyncio
 import time
 
 from fastapi import APIRouter
@@ -22,7 +23,7 @@ async def infinite(request: Request, page: int = 1, n: int = 10):
     persons = [PersonFactory.build() for _ in range(n)]
 
     if request.state.prefers_partial:
-        time.sleep(1)
+        await asyncio.sleep(0.5)
         return config.templates.TemplateResponse(
             "infinite/persons_partial.html",
             {
