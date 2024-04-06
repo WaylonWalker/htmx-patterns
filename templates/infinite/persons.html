@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block content %}
+<h1 id="title"
+    class="inline-block pb-0 mx-auto mt-8 mb-0 text-6xl font-black leading-tight leading-loose text-transparent bg-clip-text bg-gradient-to-r from-red-600 via-pink-500 to-yellow-400 ring-red-500 text-shadow-xl text-shadow-zinc-950 ring-5">
+    HTMX PATTERNS - INFINITE
+</h1>
+
+<p class='text-3xl font-bold mt-0 mb-16 max-w-xl text-center prose-xl'>
+    Contacts List
+</p>
+
+<ul id="persons" class="flex flex-col gap-4 mb-16">
+    {% include "infinite/persons_partial.html" %}
+</ul>
+
+<div id='persons-loading' class='spinner mb-24 animate-bounce'>
+    loading more contacts
+</div>
+
+{% endblock %}

@@ -24,12 +24,27 @@ classifiers = [
   "Programming Language :: Python :: Implementation :: CPython",
   "Programming Language :: Python :: Implementation :: PyPy",
 ]
-dependencies = []
+dependencies = [
+"fastapi",
+"sqlmodel",
+"pydantic",
+"pydantic_settings",
+'faker',
+"polyfactory",
+"python-dotenv",
+"python-multipart",
+"jinja2",
+"uvicorn[standard]",
+"typer",
+]
+
+[project.scripts]
+htmx-patterns = "htmx_patterns.cli.cli:app"
 
 [project.urls]
-Documentation = "https://github.com/unknown/htmx-patterns#readme"
-Issues = "https://github.com/unknown/htmx-patterns/issues"
-Source = "https://github.com/unknown/htmx-patterns"
+Documentation = "https://github.com/waylonwalker/htmx-patterns#readme"
+Issues = "https://github.com/waylonwalker/htmx-patterns/issues"
+Source = "https://github.com/waylonwalker/htmx-patterns"
 
 [tool.hatch.version]
 path = "htmx_patterns/__about__.py"

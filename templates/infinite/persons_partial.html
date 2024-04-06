@@ -1,0 +1,16 @@
+{% for person in persons %}
+{% if loop.last %}
+<li hx-get="/infinite/persons?page={{ next_page }}" hx-trigger="intersect once" hx-target="#persons" hx-swap='beforeend'
+    hx-indicator="#persons-loading"
+    class="cursor-pointer bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded">
+
+    {{ person.name }} -
+    {{ person.phone_number }}
+</li>
+{% else %}
+<li class="cursor-pointer bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded">
+    {{ person.name }} -
+    {{ person.phone_number }}
+</li>
+{% endif %}
+{% endfor %}

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    {% block head %}
+    <title>
+        {% block title %}HTMX Patterns{% endblock %}
+    </title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" type="image/x-icon" href="{{ url_for('favicon') }}" />
+    <link href="{{ url_for('app_css') }}" rel="stylesheet" />
+    <script src="{{ url_for('htmx') }}"></script>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    {% endblock %}
+</head>
+
+<body
+    class="justify-center items-center min-h-screen bg-gray-900 bg-no-repeat bg-cover bg-gradient-to-b from-pink-950/50 min-w-screen text-shadow-xl text-shadow-zinc-950">
+    <div id="grit"
+        class="absolute top-0 right-0 bottom-0 left-0 justify-center items-center min-w-full bg-repeat bg-cover" style="background-image: url(https://fokais.com/grit.svg), url(https://fokais.com/grit-light.svg);
+                    pointer-events: none"></div>
+    <div id="content" class="flex flex-col items-center min-h-screen min-w-screen text-white">
+        {% if DEBUG %}
+        {{ hot_reload.script(url_for('hot-reload') ) | safe }}
+        {% endif %}
+        {% block content %}
+        {{ body | safe }}
+        {% endblock %}
+    </div>
+</body>
+
+</html>
