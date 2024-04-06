@@ -12,18 +12,34 @@
     <link href="{{ url_for('app_css') }}" rel="stylesheet" />
     <script src="{{ url_for('htmx') }}"></script>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    {% if DEBUG %}
+    {{ hot_reload.script(url_for('hot-reload') ) | safe }}
+    {% endif %}
     {% endblock %}
 </head>
+
+{% set links = {
+"HTMX-PATTERNS": url_for("index"),
+"Boosted Links": url_for('boosted'),
+"Infinite Scroll": url_for('infinite'),
+} %}
 
 <body
     class="justify-center items-center min-h-screen bg-gray-900 bg-no-repeat bg-cover bg-gradient-to-b from-pink-950/50 min-w-screen text-shadow-xl text-shadow-zinc-950">
     <div id="grit"
-        class="absolute top-0 right-0 bottom-0 left-0 justify-center items-center min-w-full bg-repeat bg-cover" style="background-image: url(https://fokais.com/grit.svg), url(https://fokais.com/grit-light.svg);
-                    pointer-events: none"></div>
-    <div id="content" class="flex flex-col items-center min-h-screen min-w-screen text-white">
-        {% if DEBUG %}
-        {{ hot_reload.script(url_for('hot-reload') ) | safe }}
-        {% endif %}
+        class="absolute top-0 right-0 bottom-0 left-0 justify-center items-center min-w-full bg-repeat bg-cover"
+        style="background-image: url(https://fokais.com/grit.svg), url(https://fokais.com/grit-light.svg); animation: pulse 10s cubic-bezier(0.4, 0, 0.6, 1) infinite; pointer-events: none">
+    </div>
+    <div id="content" class="flex flex-col items-center min-h-screen min-w-screen text-white border-b">
+        <nav class="flex flex-row gap-8  items-center w-full p-4 bg-black border-b-4 border-gray-800">
+            <!-- <a href="/" class="text-3xl gap-4 font-bold">HTMX PATTERNS</a> -->
+            <!-- <a href="/infinite" class="text-3xl font-bold text-yellow-400">INFINITE</a> -->
+            {% for link, url in links.items() %}
+            <a href="{{ url }}"
+                class="text-3xl font-bold uppercase {% if not loop.first %}text-yellow-400{% endif %}">{{ link
+                }}</a>
+            {% endfor %}
+        </nav>
         {% block content %}
         {{ body | safe }}
         {% endblock %}

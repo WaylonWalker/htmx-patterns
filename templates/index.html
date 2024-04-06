@@ -5,17 +5,34 @@
     HTMX PATTERNS
 </h1>
 
-<p class='mt-0 mb-16 max-w-xl text-center prose-xl'>
+<p class='text-3xl font-bold mt-0 mb-16 max-w-xl text-center prose-xl'>
     A collection of HTMX patterns
 </p>
 
-<ul id="patterns" class="flex flex-col gap-4">
-    <li>
-        <a href="{{ url_for('infinite') }}"
-            class="cursor-pointer bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded">
-            Infinite Scroll
+<ul id="patterns" class="grid grid-cols-3 gap-4">
+    {% for link, url in links.items() %}
+    <li class='w-full'>
+        <a href="{{ url }}"
+            class="cursor-pointer bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded w-full">
+            {{ link }}
         </a>
     </li>
+    {% endfor %}
+    <!-- <a href="{{ url_for('infinite') }}" -->
+    <!--     class="cursor-pointer bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded"> -->
+    <!--     Infinite Scroll -->
+    <!-- </a> -->
+
+    <!-- Ajaxify - https://hypermedia.systems/htmx-in-action/#_ajax_ifying_our_application -->
+    <!-- Using HTTP verbs -->
+    <!-- Validation -->
+    <!-- Pagination -->
+    <!-- Modals -->
+    <!-- Active Search -->
+    <!-- Lazy Loading -->
+    <!-- Inline Delete -->
+    <!-- Bulk Delete -->
+
 </ul>
 
 {% endblock %}

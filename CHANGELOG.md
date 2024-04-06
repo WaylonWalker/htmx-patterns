@@ -1,5 +1,9 @@
 # HTMX-PATTERNS CHANGELOG
 
+## 0.1.0
+
+* feat boosted links
+
 ## 0.0.4
 
 * fix simulated load need asyncio.sleep

@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+{% block title %}Contact - {{ person_id }} - {{ person.name }}{% endblock %}
+{% block content %}
+<h1 id="title"
+    class="inline-block pb-0 mx-auto mt-8 mb-0 text-6xl font-black leading-tight leading-loose text-transparent bg-clip-text bg-gradient-to-r from-red-600 via-pink-500 to-yellow-400 ring-red-500 text-shadow-xl text-shadow-zinc-950 ring-5">
+    HTMX PATTERNS - BOOSTED
+</h1>
+
+<p class='text-3xl font-bold mt-0 mb-16 max-w-xl text-center prose-xl'>
+    Contact - {{ person_id }}
+</p>
+
+<p class='text-3xl font-bold mt-0 mb-16 max-w-2xl text-center prose-xl'>
+    {{ person.name }} -
+    {{ person.phone_number }}
+</p>
+
+<h2 class='text-3xl font-bold mt-0 max-w-xl text-center prose-xl mt-8'>
+    Boosted Links
+</h2>
+
+<div class='flex flex-row gap-4'>
+    {% if prev_id is not none %}
+    <a href="{{ url_for('boosted', id=prev_id) }}"
+        class="cursor-pointer bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded" hx-boost='true'>
+        Previous
+    </a>
+    {% else %}
+    <a class="pointer-events-none bg-gray-500 text-white font-bold py-2 px-4 rounded">
+        Previous
+    </a>
+    {% endif %}
+
+    <a href="{{ url_for('boosted', id=next_id) }}"
+        class="cursor-pointer bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded" hx-boost='true'>
+        Next
+    </a>
+</div>
+
+<h2 class='text-3xl font-bold mt-0 max-w-xl text-center prose-xl mt-8'>
+    Normal Links
+</h2>
+
+<div class='flex flex-row gap-4'>
+    {% if prev_id is not none %}
+    <a href="{{ url_for('boosted', id=prev_id) }}"
+        class="cursor-pointer bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded">
+        Previous
+    </a>
+    {% else %}
+    <a class="pointer-events-none bg-gray-500 text-white font-bold py-2 px-4 rounded">
+        Previous
+    </a>
+    {% endif %}
+
+    <a href="{{ url_for('boosted', id=next_id) }}"
+        class="cursor-pointer bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded">
+        Next
+    </a>
+</div>
+{% endblock %}

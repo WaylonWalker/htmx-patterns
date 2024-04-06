@@ -32,11 +32,6 @@ class ApiServer(BaseModel):
     proxy_headers: bool = True
 
 
-# @pass_context
-# def https_url_for(context: dict, name: str, **params: Any) -> str:
-#     http_url = url_for_query(context, name, **params)
-#     return str(http_url).replace("http", "https", 1)
-
 
 @pass_context
 def url_for_query(context: dict, name: str, **params: dict) -> str:
@@ -71,7 +66,6 @@ def url_for_query(context: dict, name: str, **params: dict) -> str:
 
     if os.environ.get("ENV") in ["dev", "qa", "prod"]:
         updated_url = updated_url.replace("http", "https", 1)
-
     return updated_url
 
 

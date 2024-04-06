@@ -2,6 +2,7 @@ from fastapi import Depends, FastAPI, Request
 from fastapi.responses import FileResponse
 
 from htmx_patterns.__about__ import __version__
+from htmx_patterns.boosted.router import boosted_router
 from htmx_patterns.config import get_config
 from htmx_patterns.infinite.router import infinite_router
 
@@ -36,10 +37,11 @@ app = FastAPI(
 config = get_config()
 
 app.include_router(infinite_router)
+app.include_router(boosted_router)
 
 
 @app.get("/")
-async def read_main(request: Request):
+async def index(request: Request):
     return config.templates.TemplateResponse("index.html", {"request": request})
 
 
