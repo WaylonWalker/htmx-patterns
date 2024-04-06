@@ -1,5 +1,9 @@
 # HTMX-PATTERNS CHANGELOG
 
+## 0.1.1
+
+* feat seo
+
 ## 0.1.0
 
 * feat boosted links
