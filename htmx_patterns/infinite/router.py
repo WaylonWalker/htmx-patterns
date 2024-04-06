@@ -11,8 +11,8 @@ from htmx_patterns.infinite.models import PersonFactory
 config = get_config()
 
 
-@infinite_router.get("/persons")
-async def get_persons(request: Request, page: int = 1, n: int = 10):
+@infinite_router.get("/")
+async def infinite(request: Request, page: int = 1, n: int = 10):
     # simulated last page
     if page == 5:
         return config.templates.TemplateResponse(

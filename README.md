@@ -1,8 +1,5 @@
 # htmx patterns
 
-[![PyPI - Version](https://img.shields.io/pypi/v/htmx-patterns.svg)](https://pypi.org/project/htmx-patterns)
-[![PyPI - Python Version](https://img.shields.io/pypi/pyversions/htmx-patterns.svg)](https://pypi.org/project/htmx-patterns)
-
 -----
 
 **Table of Contents**
@@ -13,7 +10,11 @@
 ## Installation
 
 ```console
-pip install htmx-patterns
+pip install git+https://github.com/waylonwalker/htmx-patterns
+
+# or clone and pip install
+git clone https://github.com/waylonwalker/htmx-patterns
+pip install .
 ```
 
 ## License

@@ -1,11 +1,13 @@
 import os
+import urllib.parse
 from datetime import datetime, timezone
-from functools import lru_cache
+from functools import lru_cache, partial
 from typing import Any, Optional
 from urllib.parse import quote_plus
 
 import jinja2
 from dotenv import load_dotenv
+from fastapi import Request
 from fastapi.templating import Jinja2Templates
 from pydantic import BaseModel, Field
 from pydantic_settings import BaseSettings, SettingsConfigDict
@@ -37,6 +39,41 @@ def https_url_for(context: dict, name: str, **path_params: Any) -> str:
     return str(http_url).replace("http", "https", 1)
 
 
+@pass_context
+def url_for_query(context: dict, name: str, **params: dict) -> str:
+    request = context["request"]
+    url = str(request.url_for(name))
+    if params == {}:
+        return url
+    from urllib.parse import parse_qs, urlencode, urlparse, urlunparse
+
+    # Parse the URL
+    parsed_url = urlparse(url)
+
+    # Parse the query parameters
+    query_params = parse_qs(parsed_url.query)
+
+    # Update the query parameters with the new ones
+    query_params.update(params)
+
+    # Rebuild the query string
+    updated_query_string = urlencode(query_params, doseq=True)
+
+    # Rebuild the URL with the updated query string
+    updated_url = urlunparse(
+        (
+            parsed_url.scheme,
+            parsed_url.netloc,
+            parsed_url.path,
+            parsed_url.params,
+            updated_query_string,
+            parsed_url.fragment,
+        )
+    )
+
+    return updated_url
+
+
 def get_templates(config: BaseSettings) -> Jinja2Templates:
     templates = Jinja2Templates(directory="templates")
     templates.env.filters["quote_plus"] = lambda u: quote_plus(str(u))
@@ -44,6 +81,7 @@ def get_templates(config: BaseSettings) -> Jinja2Templates:
         u, tz=timezone.utc
     ).strftime("%B %d, %Y")
     templates.env.globals["https_url_for"] = https_url_for
+    templates.env.globals["url_for"] = url_for_query
     templates.env.globals["config"] = config
     console.print(f'Using environment: {os.environ.get("ENV")}')
 
