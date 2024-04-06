@@ -16,7 +16,7 @@ EXPOSE 5000
 
 RUN uv pip install --system --no-deps .
 ENV TZ=America/Chicago
-ENV ENV=production
+ENV ENV=prod
 # CMD ['htmx-patterns', 'api', 'run']
 CMD htmx-patterns api run
 
