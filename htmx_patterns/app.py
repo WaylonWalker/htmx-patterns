@@ -5,11 +5,15 @@ from htmx_patterns.__about__ import __version__
 from htmx_patterns.boosted.router import boosted_router
 from htmx_patterns.config import get_config
 from htmx_patterns.infinite.router import infinite_router
+from htmx_patterns.toast.router import toast_router
+from htmx_patterns.websocket.router import websocket_router
 
 
 def set_prefers(
-    request: Request,
+    request: Request = None,
 ):
+    if request is None:
+        return
     hx_request_header = request.headers.get("hx-request")
     user_agent = request.headers.get("user-agent", "").lower()
     if hx_request_header:
@@ -38,6 +42,8 @@ config = get_config()
 
 app.include_router(infinite_router)
 app.include_router(boosted_router)
+app.include_router(toast_router)
+app.include_router(websocket_router)
 
 
 @app.get("/")
@@ -63,7 +69,19 @@ async def app_css(request: Request):
     return FileResponse("templates/app.css")
 
 
-@app.get("/htmx")
-async def htmx(request: Request):
+@app.get("/htmx.js")
+async def htmx_js(request: Request):
     "use a proper static file server like nginx or apache in production"
     return config.templates.TemplateResponse("htmx.js", {"request": request})
+
+
+@app.get("/ws.js")
+async def ws_js(request: Request):
+    "use a proper static file server like nginx or apache in production"
+    return config.templates.TemplateResponse("ws.js", {"request": request})
+
+
+@app.get("/tailwind.js")
+async def tailwind_js(request: Request):
+    "use a proper static file server like nginx or apache in production"
+    return config.templates.TemplateResponse("tailwind.js", {"request": request})

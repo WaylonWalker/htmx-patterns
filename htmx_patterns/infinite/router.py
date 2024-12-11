@@ -1,13 +1,12 @@
 import asyncio
-import time
 
 from fastapi import APIRouter
 from fastapi.requests import Request
 
-infinite_router = APIRouter(prefix="/infinite", tags=["Shots Methods"])
-
 from htmx_patterns.config import get_config
-from htmx_patterns.infinite.models import PersonFactory
+from htmx_patterns.models import PersonFactory
+
+infinite_router = APIRouter(prefix="/infinite", tags=["Infinite"])
 
 config = get_config()
 

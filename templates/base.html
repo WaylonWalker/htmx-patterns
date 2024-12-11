@@ -1,67 +1,155 @@
 <!DOCTYPE html>
 <html>
 
-<head>
-    {% block head %}
-    <title>
-        {% block title %}HTMX Patterns{% endblock %}
-    </title>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="og:title" name="og:title" content="HTMX Patterns from the hypermedia.systems book" />
-    <meta name="twitter:title" name="twitter:title" content="HTMX Patterns" />
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="og:image" name="og:image"
-        content="https://shots.wayl.one/shot/?url={{ request.url }}&height=600&width=1200&scaled_width=1200&scaled_height=600&selectors=" />
-    <meta name="twitter:image" name="twitter:image"
-        content="https://shots.wayl.one/shot/?url={{ request.url }}&height=640&width=1280&scaled_width=1280&scaled_height=640&selectors=" />
-    <meta name="og:image:height" content="640" />
-    <meta name="og:image:width" content="1280" />
-    <meta name="og:url" name="og:url" content="{{ request.url }}" />
-    <meta name="description" name="description" content="HTMX Patterns from the hypermedia.systems book" />
-    <meta name="og:description" name="Check if my kids can play outside"
-        content="HTMX Patterns from the hypermedia.systems book" />
-    <meta name="twitter:description" name="twitter:description"
-        content="HTMX Patterns from the hypermedia.systems book" />
+    <head>
+        {% block head %}
+            <title>
+                {% block title %}HTMX Patterns{% endblock %}
+            </title>
+            <meta charset="UTF-8" />
+            <meta name="viewport" content="width=device-width, initial-scale=1" />
+            <meta name="og:title" name="og:title" content="HTMX Patterns from the hypermedia.systems book" />
+            <meta name="twitter:title" name="twitter:title" content="HTMX Patterns" />
+            <meta name="twitter:card" content="summary_large_image">
+            <meta name="og:image" name="og:image"
+                  content="https://shots.wayl.one/shot/?url={{ request.url }}&height=600&width=1200&scaled_width=1200&scaled_height=600&selectors=" />
+            <meta name="twitter:image" name="twitter:image"
+                  content="https://shots.wayl.one/shot/?url={{ request.url }}&height=640&width=1280&scaled_width=1280&scaled_height=640&selectors=" />
+            <meta name="og:image:height" content="640" />
+            <meta name="og:image:width" content="1280" />
+            <meta name="og:url" name="og:url" content="{{ request.url }}" />
+            <meta name="description" name="description" content="HTMX Patterns from the hypermedia.systems book" />
+            <meta name="og:description" name="Check if my kids can play outside"
+                  content="HTMX Patterns from the hypermedia.systems book" />
+            <meta name="twitter:description" name="twitter:description"
+                  content="HTMX Patterns from the hypermedia.systems book" />
 
-    <link rel="icon" type="image/x-icon" href="{{ url_for('favicon') }}" />
-    <link href="{{ url_for('app_css') }}" rel="stylesheet" />
-    <script src="{{ url_for('htmx') }}"></script>
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-    {% if DEBUG %}
-    {{ hot_reload.script(url_for('hot-reload') ) | safe }}
-    {% endif %}
-    {% endblock %}
-</head>
+            <link rel="icon" type="image/x-icon" href="{{ url_for('favicon') }}" />
+            <link href="{{ url_for('app_css') }}" rel="stylesheet" />
+            <script src="{{ url_for('htmx_js') }}"></script>
+            <script src="{{ url_for('ws_js') }}"></script>
+            <script src="{{ url_for('tailwind_js') }}"></script>
+            <script>
+                tailwind.config = {
+                    theme: {
+                        extend: {
+                            colors: {
+                                clifford: '#da373d',
+                        //terminal
+                                'terminal-100': '#e6ffe6',
+                                'terminal-200': '#b3ffb3',
+                                'terminal-300': '#80ff80',
+                                'terminal-400': '#4dff4d',
+                                'terminal-500': '#1aff1a',
+                                'terminal-600': '#00e600',
+                                'terminal-700': '#00b300',
+                                'terminal-800': '#008000',
+                                'terminal-900': '#004d00',
+                                'terminal-950': '#002600',
 
-{% set links = {
-"HTMX-PATTERNS": url_for("index"),
-"Boosted Links": url_for('boosted'),
-"Infinite Scroll": url_for('infinite'),
-} %}
+                        //
+                        // // aqua
+                        // 'terminal-50': '#f0f9ff',
+                        // 'terminal-100': '#e0f2fe',
+                        // 'terminal-200': '#bae6fd',
+                        // 'terminal-300': '#7dd3fc',
+                        // 'terminal-400': '#38bdf8',
+                        // 'terminal-500': '#0ea5e9',
+                        // 'terminal-600': '#0284c7',
+                        // 'terminal-700': '#0369a1',
+                        // 'terminal-800': '#075985',
+                        // 'terminal-900': '#0c4a6e',
+                        // 'terminal-950': '#042c47',
+                        //
+                        // //rainbow
+                        // 'terminal-50': '#ffecf6',
+                        // 'terminal-100': '#fbb6ce',
+                        // 'terminal-200': '#f687b3',
+                        // 'terminal-300': '#ed64a6',
+                        // 'terminal-400': '#d53f8c',
+                        // 'terminal-500': '#b83280',
+                        // 'terminal-600': '#97266d',
+                        // 'terminal-700': '#702459',
+                        // 'terminal-800': '#521b41',
+                        // 'terminal-900': '#36162e',
+                        // 'terminal-950': '#1c0e1f',
+                        //
+                        // // sherbert lemon
+                        // 'terminal-50': '#fffdf1',
+                        // 'terminal-100': '#fffbda',
+                        // 'terminal-200': '#fff7b3',
+                        // 'terminal-300': '#fff280',
+                        // 'terminal-400': '#ffea4d',
+                        // 'terminal-500': '#ffe01a',
+                        // 'terminal-600': '#e6c900',
+                        // 'terminal-700': '#b3a300',
+                        // 'terminal-800': '#806c00',
+                        // 'terminal-900': '#4d4700',
+                        // 'terminal-950': '#262300',
+                        //
+                        // //cobalt
+                        // 'terminal-50': '#f0f5f9',
+                        // 'terminal-100': '#d9e5f2',
+                        // 'terminal-200': '#a6c0e6',
+                        // 'terminal-300': '#739bda',
+                        // 'terminal-400': '#4b7fce',
+                        // 'terminal-400': '#ffea4d',
+                        // 'terminal-500': '#315fb6',
+                        // 'terminal-600': '#e6c900',
+                        // 'terminal-700': '#b3a300',
+                        // 'terminal-800': '#1c3b67',
+                        // 'terminal-900': '#4d4700',
+                        // 'terminal-950': '#0e1d30',
+                        //
+                                boxShadow: {
+                                    xlc: "0 0 60px 15px rgba(0, 0, 0, 0.3)",
+                                    lgc: "0 0 20px 0px #80ff80",
+                                },
+                            }
 
-<body
-    class="justify-center items-center min-h-screen bg-gray-900 bg-no-repeat bg-cover bg-gradient-to-b from-pink-950/50 min-w-screen text-shadow-xl text-shadow-zinc-950 w-screen h-screen">
-    <div id="grit"
-        class="absolute top-0 right-0 bottom-0 left-0 justify-center items-center min-w-full bg-repeat bg-cover"
-        style="background-image: url(https://fokais.com/grit.svg), url(https://fokais.com/grit-light.svg); animation: pulse 10s cubic-bezier(0.4, 0, 0.6, 1) infinite; pointer-events: none">
-    </div>
-    <div id="content" class="flex flex-col items-center min-h-screen min-w-screen text-white border-b">
-        <nav
-            class="flex flex-col sm:flex-row flex-wrap w-screen gap-x-8 gap-y-2 justify-center  items-center w-full p-4 bg-black border-b-4 border-gray-800 mb-8">
+                        }
+                    }
+                }
+            </script>
+            {% if DEBUG %}
+                {{ hot_reload.script(url_for('hot-reload') ) | safe }}
+            {% endif %}
+        {% endblock %}
+    </head>
+
+    {% set links = {
+    "HTMX-PATTERNS": url_for("index"),
+    "Boosted Links": url_for('boosted'),
+    "Infinite Scroll": url_for('infinite'),
+    "Toast": url_for('get_toast'),
+    "WebSocket": url_for('websocket_index'),
+    } %}
+
+    <body
+        class="justify-center items-center min-h-screen bg-gray-900 bg-no-repeat bg-cover bg-gradient-to-b from-terminal-950/20 min-w-screen text-shadow-xl text-shadow-zinc-950 w-screen h-screen overflow-x-hidden">
+
+        <div id="grit"
+             class="absolute top-0 right-0 bottom-0 left-0 justify-center items-center min-w-full bg-repeat bg-cover"
+             style="background-image: url(https://fokais.com/grit.svg), url(https://fokais.com/grit-light.svg); animation: pulse 10s cubic-bezier(0.4, 0, 0.6, 1) infinite; pointer-events: none">
+        </div>
+        <div id="content" class="flex flex-col items-center min-h-screen min-w-screen text-white border-b">
+            <nav
+                class="flex flex-col sm:flex-row flex-wrap w-screen gap-x-8 gap-y-2 justify-center  items-center w-full p-4 bg-black border-b-2 border-terminal-400 mb-8 font-mono">
             <!-- <a href="/" class="text-3xl gap-4 font-bold">HTMX PATTERNS</a> -->
             <!-- <a href="/infinite" class="text-3xl font-bold text-yellow-400">INFINITE</a> -->
-            {% for link, url in links.items() %}
-            <a href="{{ url }}"
-                class="text-xl sm:text-3xl font-bold uppercase {% if not loop.first %}text-yellow-400{% endif %}">{{
-                link
-                }}</a>
-            {% endfor %}
-        </nav>
-        {% block content %}
-        {{ body | safe }}
-        {% endblock %}
-    </div>
-</body>
+                {% for link, url in links.items() %}
+                    <a href="{{ url }}"
+                       class="text-xl sm:text-xl font-thin uppercase {% if not loop.first %}text-terminal-600{% endif %}">
+                        {{ link }}
+                    </a>
+                {% endfor %}
+            </nav>
+            {% block content %}
+                {{ body | safe }}
+            {% endblock %}
+        </div>
+        <section id='toast' class="fixed bottom-4 right-4">
+        </section>
+    </body>
 
 </html>

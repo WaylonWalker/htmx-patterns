@@ -1,17 +1,25 @@
-import os
-import urllib.parse
 from datetime import datetime, timezone
-from functools import lru_cache, partial
-from typing import Any, Optional
+from functools import lru_cache
+import os
+from typing import Optional
 from urllib.parse import quote_plus
 
-import jinja2
 from dotenv import load_dotenv
-from fastapi import Request
 from fastapi.templating import Jinja2Templates
+import jinja2
 from pydantic import BaseModel, Field
 from pydantic_settings import BaseSettings, SettingsConfigDict
 from rich.console import Console
+from sqlalchemy import create_engine
+from sqlmodel import Session
+from typing import TYPE_CHECKING
+
+from htmx_patterns import models
+
+if TYPE_CHECKING:
+    from sqlalchemy.engine import Engine
+
+__all__ = ["models"]
 
 console = Console()
 
@@ -30,7 +38,6 @@ class ApiServer(BaseModel):
     workers: int = 1
     forwarded_allow_ips: str = "*"
     proxy_headers: bool = True
-
 
 
 @pass_context
@@ -89,9 +96,10 @@ def get_templates(config: BaseSettings) -> Jinja2Templates:
 
 
 class Config(BaseSettings):
-    env: str
+    env: str = "local"
     the_templates: Optional[Jinja2Templates] = Field(None, exclude=True)
     api_server: ApiServer = ApiServer()
+    database_url: str = "sqlite:///database.db"
 
     @property
     def templates(self) -> Jinja2Templates:
@@ -102,6 +110,36 @@ class Config(BaseSettings):
     model_config = SettingsConfigDict(env_nested_delimiter="__")
 
 
+class Database:
+    def __init__(self, config: Config) -> None:
+        self.config = config
+
+        self.db_conf = {}
+        if "sqlite" in self.config.database_url:
+            self.db_conf = {
+                "connect_args": {"check_same_thread": False},
+                "pool_recycle": 3600,
+                "pool_pre_ping": True,
+            }
+
+        # if os.environ.get("ENV") == "test":
+        #     self._engine = create_engine(
+        #         "sqlite://",
+        #         connect_args={"check_same_thread": False},
+        #         poolclass=StaticPool,
+        #     )
+        # else:
+        self._engine = create_engine(self.config.database_url, **self.db_conf)
+
+    @property
+    def engine(self) -> "Engine":
+        return self._engine
+
+    @property
+    def session(self) -> "Session":
+        return Session(self.engine)
+
+
 @lru_cache
 def get_config(env: Optional[str] = None):
     if env is None:
@@ -110,3 +148,12 @@ def get_config(env: Optional[str] = None):
     config = Config()
 
     return config
+
+
+config = get_config()
+database = Database(config)
+
+
+def get_session() -> "Session":
+    with Session(database.engine) as session:
+        yield session

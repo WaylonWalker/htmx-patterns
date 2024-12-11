@@ -1,0 +1,9 @@
+<div
+    class='text-terminal-500 font-extralight text-center text-3xl my-2 bg-terminal-950 ring-5 ring-terminal-500 rounded-lg px-4 py-2'
+    hx-delete="{{ url_for('null') }}"
+    hx-trigger='load delay:5s'
+    hx-swap='outerHTML'
+>
+    {{ message }}
+</div>
+

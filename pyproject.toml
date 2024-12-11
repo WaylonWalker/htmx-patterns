@@ -36,6 +36,7 @@ dependencies = [
 "jinja2",
 "uvicorn[standard]",
 "typer",
+"alembic",
 ]
 
 [project.scripts]
