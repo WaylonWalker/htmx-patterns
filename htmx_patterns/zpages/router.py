@@ -7,6 +7,7 @@ from pydantic import BaseModel
 from fastapi import APIRouter
 
 from htmx_patterns.config import get_config
+from typing import Union
 
 zpages_router = APIRouter(tags=["zpages"])
 
@@ -35,8 +36,8 @@ class PodInfo(BaseModel):
     namespace: str
     node_name: str
     container_image: str
-    start_time: str
-    pod_uptime: str
+    start_time: Union[str, datetime]
+    pod_uptime: Union[str, int]
 
 
 class Ready(BaseModel):
