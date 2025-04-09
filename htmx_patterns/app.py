@@ -7,6 +7,7 @@ from htmx_patterns.config import get_config
 from htmx_patterns.infinite.router import infinite_router
 from htmx_patterns.toast.router import toast_router
 from htmx_patterns.websocket.router import websocket_router
+from htmx_patterns.zpages.router import zpages_router
 
 
 def set_prefers(
@@ -44,6 +45,7 @@ app.include_router(infinite_router)
 app.include_router(boosted_router)
 app.include_router(toast_router)
 app.include_router(websocket_router)
+app.include_router(zpages_router)
 
 
 @app.get("/")

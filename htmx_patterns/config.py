@@ -15,6 +15,7 @@ from sqlmodel import Session
 from typing import TYPE_CHECKING
 
 from htmx_patterns import models
+from htmx_patterns.__about__ import __version__
 
 if TYPE_CHECKING:
     from sqlalchemy.engine import Engine
@@ -84,7 +85,7 @@ def get_templates(config: BaseSettings) -> Jinja2Templates:
     ).strftime("%B %d, %Y")
     templates.env.globals["url_for"] = url_for_query
     templates.env.globals["config"] = config
-    console.print(f'Using environment: {os.environ.get("ENV")}')
+    console.print(f"Using environment: {os.environ.get('ENV')}")
 
     # if os.environ.get("ENV") in ["dev", "qa", "prod"]:
     #     templates.env.globals["url_for"] = https_url_for
@@ -100,6 +101,7 @@ class Config(BaseSettings):
     the_templates: Optional[Jinja2Templates] = Field(None, exclude=True)
     api_server: ApiServer = ApiServer()
     database_url: str = "sqlite:///database.db"
+    app_version: str = __version__
 
     @property
     def templates(self) -> Jinja2Templates:
